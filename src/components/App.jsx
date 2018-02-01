@@ -12,21 +12,46 @@ class App extends React.Component {
   }
 
   searchForVideo (query) {
-    console.log('our query is -->', query);
+    //console.log('our query is -->', query);
 
     let callBack = (data) => {
-      console.log("this is the callbacks data", data.items);
+      //console.log("this is the callbacks data", data.items);
       this.setState({
-        videos: data.items
+        videos: data.items,
+        selectedVideo: data.items[0]
         })
-      console.log(this.state.videos, "THE STATE IS ")
-  }
+      //console.log(this.state.videos, "THE STATE IS ");
+    }
 
-    var ourVideos = window.searchYouTube(query, callBack)
-
-
+    var options = {
+      q: query,
+      maxResults: 10,
+      key: window.YOUTUBE_API_KEY,
+      part: 'snippet',
+    }
     
-  }
+    //_.throttle(window.searchYouTube(options, callBack), 700);
+    setTimeout(function() {
+      window.searchYouTube(options, callBack)
+    }, 500)
+    //var ourVideos = window.searchYouTube(options, callBack);
+  };
+
+  // componentDidMount() {
+  //   $.ajax({
+  //     url: 'https://www.googleapis.com/youtube/v3/search/',
+  //     type: 'GET',
+  //     //data: {q: options, part: 'snippet', maxResults: 5, key: window.YOUTUBE_API_KEY},
+  //     data: options,
+  //     success: function(data) {
+  //       callback(data);
+  //     },
+  //     error: function(err) {
+  //       console.error(err);
+  //     }
+  //   });
+  // }
+
 
   updateVideoPlayer (video) {
 
